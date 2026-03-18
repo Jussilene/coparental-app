@@ -166,6 +166,356 @@ h1, h2, h3, p { margin: 0; }
 .link-button { background: transparent; color: #3d81d7; padding: 0; }
 .icon-only { width: 54px; height: 54px; display: grid; place-items: center; padding: 0; }
 
+.subscription-signup-layout {
+  grid-template-columns: minmax(0, 1.02fr) minmax(420px, 0.98fr);
+}
+
+.subscription-hero-panel,
+.subscription-form-panel {
+  padding: clamp(1.5rem, 3vw, 2.6rem);
+}
+
+.subscription-hero-card {
+  width: min(100%, 680px);
+  min-height: min(100%, 760px);
+  display: grid;
+  align-content: start;
+  gap: 1.45rem;
+  padding: clamp(2rem, 4vw, 3rem);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.24), transparent 35%),
+    linear-gradient(160deg, #2c6f91 5%, #4cab8e 100%);
+}
+
+.subscription-hero-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.subscription-status-pill,
+.subscription-step-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 38px;
+  padding: 0.55rem 0.95rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.subscription-status-pill {
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 10px 24px rgba(18, 49, 84, 0.12);
+}
+
+.subscription-step-pill {
+  background: rgba(255, 255, 255, 0.09);
+  color: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.subscription-hero-copy {
+  display: grid;
+  gap: 0.95rem;
+}
+
+.subscription-hero-copy h1 {
+  margin: 0;
+  font-size: clamp(2.5rem, 4.6vw, 4.5rem);
+  line-height: 0.96;
+  letter-spacing: -0.05em;
+}
+
+.subscription-hero-copy p:not(.eyebrow) {
+  max-width: 33rem;
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.94);
+}
+
+.subscription-summary-card {
+  display: grid;
+  gap: 0.85rem;
+  padding: 1.15rem 1.2rem;
+  border-radius: 24px;
+  background: rgba(247, 251, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 14px 32px rgba(25, 57, 95, 0.12);
+}
+
+.subscription-summary-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.85rem;
+}
+
+.subscription-summary-head strong,
+.subscription-summary-meta strong {
+  color: #fff;
+}
+
+.subscription-summary-head strong {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 0.18rem;
+}
+
+.subscription-summary-head p,
+.subscription-summary-meta span {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.83rem;
+}
+
+.subscription-summary-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.38rem;
+  min-height: 34px;
+  padding: 0.45rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  font-size: 0.77rem;
+  font-weight: 700;
+}
+
+.subscription-summary-meta {
+  display: grid;
+  gap: 0.18rem;
+}
+
+.subscription-benefits-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.subscription-step-bullet {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.82rem;
+  align-items: flex-start;
+  padding: 0.95rem 1rem;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.subscription-step-icon {
+  width: 42px;
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.16);
+  flex-shrink: 0;
+}
+
+.subscription-step-bullet strong {
+  display: block;
+  color: #fff;
+  font-size: 0.92rem;
+  margin-bottom: 0.18rem;
+}
+
+.subscription-step-bullet p {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.subscription-auth-card {
+  width: min(100%, 560px);
+  padding: clamp(1.45rem, 3vw, 2.2rem);
+  border-radius: 32px;
+  box-shadow: 0 24px 58px rgba(31, 66, 111, 0.08);
+}
+
+.subscription-form-step {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0.4rem 0.72rem;
+  border-radius: 999px;
+  background: #ecf6f4;
+  color: #2d8b75;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.subscription-form-header {
+  margin-top: 1rem;
+}
+
+.subscription-form-header h2 {
+  margin-bottom: 0.45rem;
+}
+
+.subscription-form-header p {
+  line-height: 1.55;
+}
+
+.subscription-inline-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  margin: 1rem 0 1.15rem;
+  padding: 0.9rem 1rem;
+  border-radius: 20px;
+  background: linear-gradient(180deg, #f7fbff 0%, #eff7fb 100%);
+  border: 1px solid #dcebf6;
+  color: #4d6585;
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.subscription-inline-note svg {
+  color: #379a73;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.subscription-form-grid {
+  display: grid;
+  gap: 0.18rem 1rem;
+}
+
+.subscription-field {
+  margin-bottom: 0.88rem;
+}
+
+.subscription-field span {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #536b89;
+  letter-spacing: 0.01em;
+}
+
+.subscription-field-full {
+  grid-column: 1 / -1;
+}
+
+.subscription-field input,
+.subscription-field .password-wrap {
+  min-height: 54px;
+  border-radius: 18px;
+}
+
+.subscription-field input,
+.subscription-field .password-wrap,
+.subscription-field .password-wrap input {
+  transition: border-color 0.16s ease, box-shadow 0.16s ease, background-color 0.16s ease;
+}
+
+.subscription-field input:hover,
+.subscription-field .password-wrap:hover {
+  border-color: #cfe0f4;
+}
+
+.subscription-field input:focus,
+.subscription-field .password-wrap:focus-within {
+  border-color: rgba(77, 143, 216, 0.7);
+  box-shadow: 0 0 0 4px rgba(77, 143, 216, 0.12);
+}
+
+.password-strength-card,
+.password-confirmation-hint {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-top: 0.45rem;
+  padding: 0.72rem 0.85rem;
+  border-radius: 16px;
+  font-size: 0.8rem;
+}
+
+.password-strength-card {
+  background: #f7faff;
+  border: 1px solid #dfeaf7;
+  color: #6a7f9d;
+}
+
+.password-strength-card.weak {
+  background: #fff5f5;
+  border-color: #ffd9d9;
+  color: #ba5c5c;
+}
+
+.password-strength-card.medium {
+  background: #fff9ec;
+  border-color: #ffe0a6;
+  color: #ba7c12;
+}
+
+.password-strength-card.strong {
+  background: #edf9f2;
+  border-color: #c5ebd4;
+  color: #247851;
+}
+
+.password-strength-bars {
+  display: inline-grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.3rem;
+  width: 78px;
+  flex-shrink: 0;
+}
+
+.password-strength-bars span {
+  height: 6px;
+  border-radius: 999px;
+  background: #d9e5f4;
+}
+
+.password-strength-bars span.active {
+  background: currentColor;
+}
+
+.password-confirmation-hint {
+  background: #f5f8fc;
+  border: 1px solid #e4edf8;
+  color: #7a8fac;
+}
+
+.password-confirmation-hint.match {
+  background: #edf9f2;
+  border-color: #c5ebd4;
+  color: #247851;
+}
+
+.subscription-form-actions {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 0.45rem;
+}
+
+.subscription-primary-button,
+.subscription-secondary-button {
+  min-height: 54px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.subscription-primary-button {
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
 .alert { border-radius: 18px; padding: 0.95rem 1rem; margin-bottom: 1rem; }
 .alert.error { background: #fff1f1; color: #bb4c4c; }
 .alert.success { background: #edfaf2; color: #2b8450; }
@@ -815,7 +1165,49 @@ h1, h2, h3, p { margin: 0; }
   color: #2f4f79;
 }
 
+@media (max-width: 1100px) {
+  .subscription-signup-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(360px, 0.94fr);
+  }
+
+  .subscription-hero-card {
+    padding: 2.2rem;
+  }
+
+  .subscription-hero-copy h1 {
+    font-size: clamp(2.15rem, 4vw, 3.5rem);
+  }
+}
+
 @media (max-width: 900px) {
+  .subscription-signup-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .subscription-hero-panel,
+  .subscription-form-panel {
+    padding: 1.2rem;
+  }
+
+  .subscription-hero-panel {
+    padding-bottom: 0;
+  }
+
+  .subscription-form-panel {
+    padding-top: 1rem;
+  }
+
+  .subscription-hero-card,
+  .subscription-auth-card {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .subscription-summary-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
   .legal-card-head,
   .legal-summary {
     grid-template-columns: 1fr;
@@ -3063,6 +3455,82 @@ h1, h2, h3, p { margin: 0; }
   .onboarding-layout { grid-template-columns: 1fr; }
   .auth-form-panel { padding: 1rem; }
   .auth-card { width: 100%; }
+  .subscription-signup-layout .auth-hero {
+    display: flex;
+  }
+  .subscription-signup-layout {
+    grid-template-columns: 1fr;
+  }
+  .subscription-hero-panel,
+  .subscription-form-panel {
+    padding: 1rem;
+  }
+  .subscription-hero-panel {
+    padding-bottom: 0;
+  }
+  .subscription-hero-card {
+    gap: 1rem;
+    padding: 1.4rem;
+    border-radius: 28px;
+    min-height: auto;
+  }
+  .subscription-hero-copy h1 {
+    font-size: 2rem;
+  }
+  .subscription-hero-copy p:not(.eyebrow) {
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+  .subscription-hero-topline {
+    align-items: flex-start;
+  }
+  .subscription-status-pill,
+  .subscription-step-pill {
+    min-height: 34px;
+    font-size: 0.72rem;
+    padding: 0.48rem 0.75rem;
+  }
+  .subscription-summary-card,
+  .subscription-step-bullet,
+  .subscription-inline-note,
+  .password-strength-card,
+  .password-confirmation-hint {
+    border-radius: 18px;
+  }
+  .subscription-auth-card {
+    padding: 1.2rem;
+    border-radius: 28px;
+  }
+  .subscription-form-header {
+    margin-top: 0.85rem;
+  }
+  .subscription-form-header h2 {
+    font-size: 1.45rem;
+  }
+  .subscription-form-header p {
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+  .subscription-inline-note {
+    margin: 0.9rem 0 1rem;
+    padding: 0.82rem 0.9rem;
+    font-size: 0.8rem;
+  }
+  .subscription-field {
+    margin-bottom: 0.76rem;
+  }
+  .subscription-field input,
+  .subscription-field .password-wrap,
+  .subscription-primary-button,
+  .subscription-secondary-button {
+    min-height: 50px;
+  }
+  .password-strength-card,
+  .password-confirmation-hint {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.38rem;
+  }
   .web-only { display: none; }
   .mobile-only { display: grid; }
   .onboarding-topbar {

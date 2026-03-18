@@ -17,6 +17,7 @@ import { ActivationPage } from "./pages/ActivationPage";
 import { ResetPasswordPage } from "./pages/ResetPasswordPage";
 import { AdminPage } from "./pages/AdminPage";
 import { InvitationPage } from "./pages/InvitationPage";
+import { SubscriptionSignupPage } from "./pages/SubscriptionSignupPage";
 
 function ProtectedRoutes() {
   const { user, loading, familyContext } = useAuth();
@@ -76,6 +77,7 @@ export default function App() {
     <AuthProvider>
       <Routes>
         <Route path="/acesso" element={<PublicOnly />} />
+        <Route path="/assinar/cadastro" element={<SubscriptionSignupPage />} />
         <Route path="/convite" element={<InvitationPage />} />
         <Route path="/ativar-conta" element={<ActivationPage />} />
         <Route path="/redefinir-senha" element={<ResetPasswordPage />} />

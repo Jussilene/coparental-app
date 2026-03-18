@@ -58,6 +58,44 @@ authRouter.post("/register", async (req, res, next) => {
   }
 });
 
+authRouter.post("/subscription-register", async (req, res, next) => {
+  try {
+    const name = sanitizeText(req.body.name, 80);
+    const email = normalizeEmail(req.body.email);
+    const phone = sanitizeText(req.body.phone, 40);
+    const password = String(req.body.password || "");
+
+    required(name, "Nome");
+    assertEmail(email);
+    assertPassword(password);
+
+    const exists = db.prepare("SELECT id FROM users WHERE email = ?").get(email);
+    if (exists) {
+      return res.status(409).json({ ok: false, message: "Este e-mail já está cadastrado." });
+    }
+
+    const timestamp = nowIso();
+    const userId = nanoid();
+    const passwordHash = await hashPassword(password);
+
+    db.prepare(`
+      INSERT INTO users (id, name, email, password_hash, phone, role_label, avatar_color, is_admin, account_status, activation_state, activated_at, last_login_at, created_at, updated_at)
+      VALUES (?, ?, ?, ?, ?, 'Responsável', '#5aa3c7', 0, 'active', 'completed', ?, NULL, ?, ?)
+    `).run(userId, name, email, passwordHash, phone, timestamp, timestamp, timestamp);
+
+    const token = signToken({ userId });
+    setSessionCookie(res, token, true);
+    writeAuditLog({ userId, action: "user_registered_after_payment", entityType: "user", entityId: userId });
+
+    return created(res, {
+      user: { id: userId, name, email, phone },
+      needsOnboarding: true
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 authRouter.get("/invitations/:token", (req, res) => {
   const token = String(req.params.token || "").trim();
   required(token, "Token do convite");
