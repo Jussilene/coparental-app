@@ -16,6 +16,19 @@ export const adminRouter = express.Router();
 
 adminRouter.use(requireAuth, requireActiveSubscription, requireAdmin);
 
+function deleteByIds(table, column, ids) {
+  if (!ids.length) {
+    return;
+  }
+
+  const placeholders = ids.map(() => "?").join(", ");
+  db.prepare(`DELETE FROM ${table} WHERE ${column} IN (${placeholders})`).run(...ids);
+}
+
+function listIds(table, column, value) {
+  return db.prepare(`SELECT id FROM ${table} WHERE ${column} = ?`).all(value).map((row) => row.id);
+}
+
 adminRouter.get("/customers", (req, res) => {
   const search = sanitizeText(req.query.search, 120);
   const status = sanitizeText(req.query.status, 20);
@@ -187,18 +200,54 @@ adminRouter.delete("/customers/:id", (req, res) => {
   if (!customer) {
     return res.status(404).json({ ok: false, message: "Usuario nao encontrado." });
   }
-  const statements = [
-    ["DELETE FROM account_activation_tokens WHERE user_id = ?", customer.id],
-    ["DELETE FROM password_reset_requests WHERE user_id = ?", customer.id],
-    ["DELETE FROM subscriptions WHERE user_id = ?", customer.id],
-    ["DELETE FROM notifications WHERE user_id = ?", customer.id],
-    ["DELETE FROM expense_comments WHERE user_id = ?", customer.id],
-    ["DELETE FROM family_members WHERE user_id = ?", customer.id],
-    ["DELETE FROM users WHERE id = ?", customer.id]
-  ];
-  for (const [sql, param] of statements) {
-    db.prepare(sql).run(param);
-  }
+
+  const removeCustomer = db.transaction((userId) => {
+    const ownedFamilyIds = listIds("families", "created_by", userId);
+
+    if (ownedFamilyIds.length) {
+      const ownedExpenseIds = db.prepare(`SELECT id FROM expenses WHERE family_id IN (${ownedFamilyIds.map(() => "?").join(", ")})`).all(...ownedFamilyIds).map((row) => row.id);
+      const ownedScheduleEventIds = db.prepare(`SELECT id FROM schedule_events WHERE family_id IN (${ownedFamilyIds.map(() => "?").join(", ")})`).all(...ownedFamilyIds).map((row) => row.id);
+
+      deleteByIds("expense_comments", "expense_id", ownedExpenseIds);
+      deleteByIds("swap_requests", "schedule_event_id", ownedScheduleEventIds);
+      deleteByIds("swap_requests", "family_id", ownedFamilyIds);
+      deleteByIds("notifications", "family_id", ownedFamilyIds);
+      deleteByIds("chat_messages", "family_id", ownedFamilyIds);
+      deleteByIds("support_reminder_dispatches", "family_id", ownedFamilyIds);
+      deleteByIds("support_payments", "family_id", ownedFamilyIds);
+      deleteByIds("expenses", "family_id", ownedFamilyIds);
+      deleteByIds("schedule_events", "family_id", ownedFamilyIds);
+      deleteByIds("invitations", "family_id", ownedFamilyIds);
+      deleteByIds("support_settings", "family_id", ownedFamilyIds);
+      deleteByIds("family_members", "family_id", ownedFamilyIds);
+      deleteByIds("children", "family_id", ownedFamilyIds);
+      deleteByIds("families", "id", ownedFamilyIds);
+    }
+
+    const expenseIds = db.prepare("SELECT id FROM expenses WHERE created_by = ? OR paid_by_user_id = ?").all(userId, userId).map((row) => row.id);
+    const scheduleEventIds = listIds("schedule_events", "created_by", userId);
+
+    deleteByIds("expense_comments", "expense_id", expenseIds);
+    deleteByIds("swap_requests", "schedule_event_id", scheduleEventIds);
+
+    db.prepare("DELETE FROM account_activation_tokens WHERE user_id = ?").run(userId);
+    db.prepare("DELETE FROM password_reset_requests WHERE user_id = ?").run(userId);
+    db.prepare("DELETE FROM subscriptions WHERE user_id = ?").run(userId);
+    db.prepare("DELETE FROM notifications WHERE user_id = ?").run(userId);
+    db.prepare("DELETE FROM expense_comments WHERE user_id = ?").run(userId);
+    db.prepare("DELETE FROM family_members WHERE user_id = ?").run(userId);
+    db.prepare("DELETE FROM push_subscriptions WHERE user_id = ?").run(userId);
+    db.prepare("DELETE FROM support_reminder_dispatches WHERE user_id = ?").run(userId);
+    db.prepare("DELETE FROM support_payments WHERE created_by = ?").run(userId);
+    db.prepare("DELETE FROM expenses WHERE created_by = ? OR paid_by_user_id = ?").run(userId, userId);
+    db.prepare("DELETE FROM swap_requests WHERE requested_by = ?").run(userId);
+    db.prepare("DELETE FROM schedule_events WHERE created_by = ?").run(userId);
+    db.prepare("DELETE FROM chat_messages WHERE sender_id = ?").run(userId);
+    db.prepare("UPDATE audit_logs SET user_id = NULL WHERE user_id = ?").run(userId);
+    db.prepare("DELETE FROM users WHERE id = ?").run(userId);
+  });
+
+  removeCustomer(customer.id);
   writeAuditLog({ userId: req.user.id, action: "admin_customer_deleted", entityType: "user", entityId: customer.id, details: { email: customer.email } });
   return ok(res, { message: "Usuario excluido." });
 });
