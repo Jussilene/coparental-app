@@ -3804,12 +3804,12 @@ h1, h2, h3, p { margin: 0; }
   .modal-overlay {
     align-items: start;
     overflow-y: auto;
-    padding: max(0.75rem, env(safe-area-inset-top)) 0.75rem max(0.75rem, env(safe-area-inset-bottom));
+    padding: max(0.75rem, env(safe-area-inset-top)) 0.75rem calc(5.9rem + env(safe-area-inset-bottom));
   }
   .modal-card,
   .expense-modal-card {
     width: 100%;
-    max-height: calc(100dvh - 1.5rem);
+    max-height: calc(100dvh - 6.7rem);
     margin: 0 auto;
     padding: 1rem;
     border-radius: 24px;
@@ -3841,13 +3841,13 @@ h1, h2, h3, p { margin: 0; }
   }
   .modal-actions {
     position: sticky;
-    bottom: -1rem;
+    bottom: 0;
     z-index: 1;
     display: grid;
     grid-template-columns: 1fr;
     gap: 0.65rem;
-    margin: 0.9rem -1rem -1rem;
-    padding: 0.9rem 1rem calc(1rem + env(safe-area-inset-bottom));
+    margin: 0.8rem -1rem 0;
+    padding: 0.8rem 1rem 0.25rem;
     background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #ffffff 22%, #ffffff 100%);
   }
   .modal-actions .ghost-button,
@@ -3859,6 +3859,14 @@ h1, h2, h3, p { margin: 0; }
   }
   .expense-modal-card .modal-actions {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .support-modal-card .modal-actions .ghost-button,
+  .support-modal-card .modal-actions .primary-button,
+  .expense-modal-card .modal-actions .ghost-button,
+  .expense-modal-card .modal-actions .primary-button {
+    min-height: 44px;
+    padding: 0.72rem 0.8rem;
+    font-size: 0.92rem;
   }
   .support-history-topline {
     grid-template-columns: 1fr;
