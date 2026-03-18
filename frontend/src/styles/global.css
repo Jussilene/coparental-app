@@ -3857,6 +3857,9 @@ h1, h2, h3, p { margin: 0; }
   .support-modal-card .modal-actions {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+  .expense-modal-card .modal-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
   .support-history-topline {
     grid-template-columns: 1fr;
     align-items: start;
