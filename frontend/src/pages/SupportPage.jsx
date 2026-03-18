@@ -360,8 +360,11 @@ export function SupportPage() {
       {settingsModalOpen ? (
         <div className="modal-overlay" onClick={() => setSettingsModalOpen(false)}>
           <div className="modal-card support-modal-card" onClick={(event) => event.stopPropagation()}>
-            <div className="panel-head">
+            <div className="panel-head support-modal-head">
               <h3>{supportOverview ? "Editar pensão" : "Cadastrar pensão"}</h3>
+              <button type="button" className="icon-button" onClick={() => setSettingsModalOpen(false)} aria-label="Fechar">
+                <span aria-hidden="true">X</span>
+              </button>
             </div>
             <form onSubmit={saveSettings}>
               <label className="field"><span>Valor mensal</span><input name="amount" value={settingsForm.amount} onChange={updateSettings} placeholder="700,00" /></label>
@@ -379,7 +382,12 @@ export function SupportPage() {
       {paymentModalOpen ? (
         <div className="modal-overlay" onClick={() => setPaymentModalOpen(false)}>
           <div className="modal-card support-modal-card" onClick={(event) => event.stopPropagation()}>
-            <div className="panel-head"><h3>Registrar pagamento</h3></div>
+            <div className="panel-head support-modal-head">
+              <h3>Registrar pagamento</h3>
+              <button type="button" className="icon-button" onClick={() => setPaymentModalOpen(false)} aria-label="Fechar">
+                <span aria-hidden="true">X</span>
+              </button>
+            </div>
             <form onSubmit={registerPayment}>
               <label className="field"><span>Mes de referencia</span><input name="monthRef" type="month" value={paymentForm.monthRef} onChange={updatePayment} /></label>
               <label className="field"><span>Valor pago</span><input name="amount" value={paymentForm.amount} onChange={updatePayment} placeholder="700,00" /></label>
